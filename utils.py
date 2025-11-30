@@ -1,4 +1,5 @@
-from firebase import read, save
+from datetime import datetime
+from firebase import read
 
 def generate_order_id():
     orders = read("orders")
@@ -6,7 +7,6 @@ def generate_order_id():
     if not orders or not isinstance(orders, dict):
         next_id = 1
     else:
-        # Extract numbers from SRP001 format
         nums = []
         for o in orders.values():
             if isinstance(o, dict) and "order_id" in o:
@@ -18,3 +18,6 @@ def generate_order_id():
         next_id = max(nums) + 1 if nums else 1
 
     return f"SRP{next_id:03d}"
+
+def today():
+    return datetime.now().strftime("%d-%m-%Y")
